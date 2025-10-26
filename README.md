@@ -64,12 +64,9 @@ docker-compose up -d
 
 - [Troubleshooting](docs/TROUBLESHOOTING.md)
 
-## Prerequisites
+### Component Documentation
 
-- Ubuntu Server 22.04 LTS or newer
-- Docker Engine 24.x or newer
-- Docker Compose v2.x
-- Minimum 4GB RAM
-- 50GB disk space
-- Network access to monitored servers
-
+- [Prometheus Setup](prometheus/README.md)
+- [Grafana Configuration](grafana/README.md)
+- [Exporters Setup](exporters/README.md)
+- [Alerting Configuration](alerting/README.md)
