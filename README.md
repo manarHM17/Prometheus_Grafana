@@ -66,7 +66,8 @@ docker-compose up -d
 
 ### Component Documentation
 
-- [Prometheus Setup](prometheus/README.md)
-- [Grafana Configuration](grafana/README.md)
-- [Exporters Setup](exporters/README.md)
-- [Alerting Configuration](alerting/README.md)
+- [Installation Guide](docs/INSTALLATION.md) - Complete setup and deployment instructions
+- [Configuration Guide](docs/CONFIGURATION.md) - Detailed configuration for all components
+- [Exporters Guide](docs/EXPORTERS.md) - Setup and configuration of Node, Windows, and Blackbox exporters
+- [Dashboards Guide](docs/DASHBOARDS.md) - Grafana dashboard setup and management
+- [Alerting Guide](docs/ALERTING.md) - AlertManager setup and alert configuration
