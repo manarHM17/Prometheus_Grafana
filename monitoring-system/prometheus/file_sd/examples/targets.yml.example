@@ -1,0 +1,23 @@
+# Example targets configuration - DO NOT use localhost in production
+# Replace ${SERVER_IP_1}, ${SERVER_IP_2}, etc. with actual server IP addresses
+
+- labels:
+    environment: production
+    role: linux-server
+  targets:
+    - '${SERVER_IP_1}:9100'
+    - '${SERVER_IP_2}:9100'
+
+- labels:
+    environment: production
+    role: windows-server
+  targets:
+    - '${WINDOWS_IP_1}:9182'
+    - '${WINDOWS_IP_2}:9182'
+
+- labels:
+    environment: production
+    role: database
+  targets:
+    - '${DB_SERVER_IP_1}:9100'
+    - '${DB_SERVER_IP_2}:9100'

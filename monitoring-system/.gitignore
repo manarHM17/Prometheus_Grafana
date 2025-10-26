@@ -1,0 +1,35 @@
+# Environment variables and secrets
+.env
+*.env
+!.env.example
+**/secrets/
+**/secret/
+
+# Docker volumes
+data/
+
+# Runtime files
+*.pid
+*.log
+
+# Prometheus data
+prometheus/data/
+prometheus/**/file_sd/*.json
+prometheus/**/file_sd/*.yml
+!prometheus/**/file_sd/*.example.yml
+
+# Grafana
+grafana/data/
+grafana/provisioning/datasources/*.yml
+!grafana/provisioning/datasources/*.yml.template
+
+# AlertManager
+alerting/alertmanager/data/
+alerting/alertmanager/*.yml
+!alerting/alertmanager/*.yml.template
+
+# Node modules and temp files
+node_modules/
+*.tmp
+*.temp
+.DS_Store
