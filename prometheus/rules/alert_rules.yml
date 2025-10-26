@@ -1,0 +1,107 @@
+groups:
+  - name: host_alerts
+    rules:
+      - alert: HostHighCPULoad
+        expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: Host high CPU load (instance {{ $labels.instance }})
+          description: "CPU load is > 80%\n  VALUE = {{ $value }}%\n  LABELS = {{ $labels }}"
+
+      - alert: HostOutOfMemory
+        expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 10
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: Host out of memory (instance {{ $labels.instance }})
+          description: "Node memory is filling up (< 10% left)\n  VALUE = {{ $value }}%\n  LABELS = {{ $labels }}"
+
+      - alert: HostOutOfDiskSpace
+        expr: (node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"} * 100) < 10
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: Host out of disk space (instance {{ $labels.instance }})
+          description: "Disk is almost full (< 10% left)\n  VALUE = {{ $value }}%\n  LABELS = {{ $labels }}"
+
+      - alert: HostDiskWillFillIn24Hours
+        expr: (node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"} * 100) < 10 and predict_linear(node_filesystem_avail_bytes{mountpoint="/"}[1h], 24 * 3600) < 0
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: Host disk will fill in 24 hours (instance {{ $labels.instance }})
+          description: "Disk will fill in 24 hours at current write rate\n  VALUE = {{ $value }}%\n  LABELS = {{ $labels }}"
+
+  - name: service_alerts
+    rules:
+      - alert: ServiceDown
+        expr: up == 0
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: Service {{ $labels.job }} is down
+          description: "Service has been down for more than 5 minutes\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+      - alert: BlackboxProbeFailed
+        expr: probe_success == 0
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: Blackbox probe failed (instance {{ $labels.instance }})
+          description: "Probe failed\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+      - alert: BlackboxSlowProbe
+        expr: avg_over_time(probe_duration_seconds[5m]) > 1
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: Blackbox slow probe (instance {{ $labels.instance }})
+          description: "Blackbox probe took more than 1s to complete\n  VALUE = {{ $value }}s\n  LABELS = {{ $labels }}"
+
+  - name: windows_alerts
+    rules:
+      - alert: WindowsHighCPU
+        expr: 100 - (avg by (instance) (rate(windows_cpu_time_total{mode="idle"}[5m])) * 100) > 80
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: Windows High CPU (instance {{ $labels.instance }})
+          description: "Windows CPU utilization is above 80%\n  VALUE = {{ $value }}%\n  LABELS = {{ $labels }}"
+
+      - alert: WindowsHighMemory
+        expr: 100 - ((windows_os_physical_memory_free_bytes / windows_cs_physical_memory_bytes) * 100) > 80
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: Windows High Memory (instance {{ $labels.instance }})
+          description: "Windows memory utilization is above 80%\n  VALUE = {{ $value }}%\n  LABELS = {{ $labels }}"
+
+  - name: application_alerts
+    rules:
+      - alert: HTTPRequestsIncreasing
+        expr: rate(http_requests_total[5m]) > 10
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: HTTP Requests rate high (instance {{ $labels.instance }})
+          description: "HTTP request rate is high\n  VALUE = {{ $value }}/s\n  LABELS = {{ $labels }}"
+
+      - alert: HTTPErrorRateHigh
+        expr: rate(http_requests_total{status=~"5.."}[5m]) / rate(http_requests_total[5m]) * 100 > 5
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: HTTP Error Rate High (instance {{ $labels.instance }})
+          description: "Error rate is above 5%\n  VALUE = {{ $value }}%\n  LABELS = {{ $labels }}"

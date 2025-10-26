@@ -1,21 +1,39 @@
-# Monitoring System Stack
+# Prometheus & Grafana Monitoring Solution
 
-A complete monitoring solution using Prometheus, Grafana, and various exporters for system monitoring, with secure configuration management and Docker deployment.
+## Architecture Overview
 
-![Architecture Overview](docs/images/architecture.png)
+![Architecture Diagram](docs/images/architecture.png)
 
-## Features
+Our monitoring solution consists of the following components:
 
-- Complete monitoring stack with Prometheus, Grafana, and various exporters
-- Secure secrets management and configuration
-- Docker-based deployment for easy setup
-- Support for multiple exporter types:
-  - Node Exporter (Linux systems)
-  - WMI Exporter (Windows systems)
-  - Blackbox Exporter (endpoint monitoring)
-- Automated alerting via Slack
-- Grafana dashboards for visualization
-- Secure configuration with secrets management
+### Core Components
+- **Prometheus** (Port 9090): Main monitoring and metrics collection
+- **Grafana** (Port 3000): Visualization and dashboarding
+- **AlertManager** (Port 9093): Alert handling and routing
+- **Blackbox Exporter** (Port 9115): External endpoint monitoring
+
+### Exporters
+- **Node Exporter** (Port 9100): Linux system metrics
+- **WMI Exporter** (Port 9182): Windows system metrics
+
+### Infrastructure
+- Ubuntu Server as the main monitoring server
+- Docker for containerization
+- Docker Compose for service orchestration
+
+### Alert Channels
+- Slack notifications via webhooks
+- Email alerts (optional)
+
+## Port Overview
+| Component | Port | Description |
+|-----------|------|-------------|
+| Prometheus | 9090 | Metrics collection and storage |
+| Grafana | 3000 | Dashboard interface |
+| AlertManager | 9093 | Alert management |
+| Node Exporter | 9100 | Linux metrics collection |
+| WMI Exporter | 9182 | Windows metrics collection |
+| Blackbox Exporter | 9115 | Endpoint monitoring |
 
 ## Quick Start
 
@@ -25,46 +43,33 @@ git clone https://github.com/manarHM17/Prometheus_Grafana.git
 cd Prometheus_Grafana
 ```
 
-2. Set up environment variables:
+2. Copy and configure environment variables:
 ```bash
 cp .env.example .env
 # Edit .env with your configurations
 ```
 
-3. Deploy the full stack:
+3. Start the monitoring stack:
 ```bash
-docker compose -f docker-compose.full-stack.yml up -d
+docker-compose up -d
 ```
 
 4. Access the interfaces:
-- Prometheus: http://${SERVER_IP}:9090
-- Grafana: http://${SERVER_IP}:3000 (default credentials in docs)
-- AlertManager: http://${SERVER_IP}:9093
-
-Note: Replace ${SERVER_IP} with your actual server IP address.
+- Prometheus: http://${IP_ADDRESS}:9090
+- Grafana: http://${IP_ADDRESS}:3000
+- AlertManager: http://${IP_ADDRESS}:9093
 
 ## Documentation
 
-- [Installation Guide](docs/INSTALLATION.md)
-- [Configuration Guide](docs/CONFIGURATION.md)
-- [Architecture Overview](docs/ARCHITECTURE.md)
-- [Troubleshooting Guide](docs/TROUBLESHOOTING.md)
 
-### Component Documentation
+- [Troubleshooting](docs/TROUBLESHOOTING.md)
 
-- [Prometheus Setup](prometheus/README.md)
-- [Grafana Configuration](grafana/README.md)
-- [Exporters Setup](exporters/README.md)
-- [Alerting Configuration](alerting/README.md)
+## Prerequisites
 
-## Security
+- Ubuntu Server 22.04 LTS or newer
+- Docker Engine 24.x or newer
+- Docker Compose v2.x
+- Minimum 4GB RAM
+- 50GB disk space
+- Network access to monitored servers
 
-All sensitive information (passwords, API keys, endpoints) should be stored in environment variables or Docker secrets. Never commit sensitive data to the repository. See [Configuration Guide](docs/CONFIGURATION.md) for details on secure configuration.
-
-## Contributing
-
-Please read our contributing guidelines before submitting pull requests.
-
-## License
-
-MIT License - see [LICENSE](LICENSE) for details.

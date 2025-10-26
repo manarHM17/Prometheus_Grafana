@@ -1,0 +1,30 @@
+# Linux Servers Monitoring
+- targets:
+  - "${LINUX_SERVER1_IP}:9100"
+  - "${LINUX_SERVER2_IP}:9100"
+  labels:
+    env: production
+    role: application-server
+
+- targets:
+  - "${LINUX_DB1_IP}:9100"
+  - "${LINUX_DB2_IP}:9100"
+  labels:
+    env: production
+    role: database-server
+
+# Windows Servers Monitoring
+- targets:
+  - "${WINDOWS_SERVER1_IP}:9182"
+  - "${WINDOWS_SERVER2_IP}:9182"
+  labels:
+    env: production
+    role: windows-server
+
+# Load Balancers
+- targets:
+  - "${LB1_IP}:9100"
+  - "${LB2_IP}:9100"
+  labels:
+    env: production
+    role: load-balancer
