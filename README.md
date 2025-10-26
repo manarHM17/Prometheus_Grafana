@@ -61,10 +61,3 @@ Note: Replace ${SERVER_IP} with your actual server IP address.
 
 All sensitive information (passwords, API keys, endpoints) should be stored in environment variables or Docker secrets. Never commit sensitive data to the repository. See [Configuration Guide](docs/CONFIGURATION.md) for details on secure configuration.
 
-## Contributing
-
-Please read our contributing guidelines before submitting pull requests.
-
-## License
-
-MIT License - see [LICENSE](LICENSE) for details.
